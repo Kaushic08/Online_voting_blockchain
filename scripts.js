@@ -139,12 +139,6 @@ document.addEventListener("DOMContentLoaded",function(){
 		to:CONTRACT_ADDR,
 		data:contract.methods.vote(candidateId).encodeABI(),
 		gas:320000
-}
+}}
 
-web3.eth.sendTransaction(transaction).on("transactionHash",function(hash){
-console.log*("Transaction  Hash",hash)
-})
-.on("error",function(error){
-console.log(error)
-})
-}
+
