@@ -1,0 +1,12 @@
+{
+    "name": "wd",
+    "version": "12",
+    "main": "123",
+    "license": "12",
+    "description": "23",
+    "repository": "21",
+    "author": "123",
+    "private": null,
+    "dependencies": 
+      "web3 ^4.7.0"
+}
