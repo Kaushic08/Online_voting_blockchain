@@ -1,13 +1,40 @@
 const web3= new Web3(window.ethereum)
 var account;
-const CONTRACT_ADDR="0xe66D0101b393D0CD4c4e5BB0546C22568D55E538"
+const CONTRACT_ADDR="0xd9145CCE52D386f254917e481eB44e9943F39138"
 const CONTRACT_ABI=[
 	
+	[
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "to",
+					"type": "address"
+				}
+			],
+			"name": "delegate",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "voter",
+					"type": "address"
+				}
+			],
+			"name": "giveRightToVote",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
 		{
 			"inputs": [
 				{
 					"internalType": "string[]",
-					"name": "_candidateName",
+					"name": "proposalNames",
 					"type": "string[]"
 				}
 			],
@@ -18,7 +45,7 @@ const CONTRACT_ABI=[
 			"inputs": [
 				{
 					"internalType": "uint256",
-					"name": "_candidateId",
+					"name": "proposal",
 					"type": "uint256"
 				}
 			],
@@ -29,12 +56,12 @@ const CONTRACT_ABI=[
 		},
 		{
 			"inputs": [],
-			"name": "candidateCount",
+			"name": "chairperson",
 			"outputs": [
 				{
-					"internalType": "uint256",
+					"internalType": "address",
 					"name": "",
-					"type": "uint256"
+					"type": "address"
 				}
 			],
 			"stateMutability": "view",
@@ -48,13 +75,8 @@ const CONTRACT_ABI=[
 					"type": "uint256"
 				}
 			],
-			"name": "candidates",
+			"name": "proposals",
 			"outputs": [
-				{
-					"internalType": "uint256",
-					"name": "id",
-					"type": "uint256"
-				},
 				{
 					"internalType": "string",
 					"name": "name",
@@ -72,16 +94,31 @@ const CONTRACT_ABI=[
 		{
 			"inputs": [
 				{
-					"internalType": "uint256",
-					"name": "_candidateId",
-					"type": "uint256"
+					"internalType": "address",
+					"name": "",
+					"type": "address"
 				}
 			],
-			"name": "getVoteCount",
+			"name": "voters",
 			"outputs": [
 				{
 					"internalType": "uint256",
-					"name": "",
+					"name": "weight",
+					"type": "uint256"
+				},
+				{
+					"internalType": "bool",
+					"name": "voted",
+					"type": "bool"
+				},
+				{
+					"internalType": "address",
+					"name": "delegate",
+					"type": "address"
+				},
+				{
+					"internalType": "uint256",
+					"name": "vote",
 					"type": "uint256"
 				}
 			],
@@ -89,25 +126,32 @@ const CONTRACT_ABI=[
 			"type": "function"
 		},
 		{
-			"inputs": [
-				{
-					"internalType": "address",
-					"name": "",
-					"type": "address"
-				}
-			],
-			"name": "hasVoted",
+			"inputs": [],
+			"name": "winnerName",
 			"outputs": [
 				{
-					"internalType": "bool",
-					"name": "",
-					"type": "bool"
+					"internalType": "string",
+					"name": "winnerName_",
+					"type": "string"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "winningProposal",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "winningProposal_",
+					"type": "uint256"
 				}
 			],
 			"stateMutability": "view",
 			"type": "function"
 		}
-	]
+	]	]
 const contract=new web3.eth.Contract(CONTRACT_ABI,CONTRACT_ADDR)
 document.addEventListener("DOMContentLoaded",function(){
     if(window.ethereum){
